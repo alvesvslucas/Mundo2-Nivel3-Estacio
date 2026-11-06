@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "node --test tests/api-handlers.test.mjs",
+    "test:http": "node tests/run-http-smoke.mjs"
   },
   "dependencies": {
     "bootstrap": "^5.3.3",

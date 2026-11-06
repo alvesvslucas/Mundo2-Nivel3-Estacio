@@ -7,24 +7,37 @@ import Head from "next/head";
 import { Menu } from "@/componentes/Menu";
 import { LinhaLivro } from "@/componentes/LinhaLivro";
 
-const baseURL = "http://localhost:3000/api/livros";
+const baseURL = "/api/livros";
 
 const LivroLista: NextPage = () => {
     const [livros, setLivros] = useState<Array<Livro>>([]);
     const [carregado, setCarregado] = useState<boolean>(false);
+    const [erro, setErro] = useState("");
 
     useEffect(() => {
         if (!carregado) {
+            let ativo = true;
             obterLivros().then(dados => {
+                if (!ativo) return;
                 setLivros(dados);
                 setCarregado(true);
+                setErro("");
+            }).catch(() => {
+                if (ativo) setErro('Não foi possível carregar o catálogo. Tente novamente.');
             });
+            return () => { ativo = false; };
         }
     }, [carregado]);
 
-    const excluir = (codigo: number) => {
-		excluirLivro(codigo).then(() => setCarregado(false))
-	}
+    const excluir = async (codigo: number) => {
+        try {
+            await excluirLivro(codigo);
+            setErro("");
+            setCarregado(false);
+        } catch {
+            setErro('Não foi possível excluir o livro. O catálogo foi preservado.');
+        }
+    }
 
     return (
         <div className={styles.container}>
@@ -51,17 +64,20 @@ const LivroLista: NextPage = () => {
                         ))}
                     </tbody>
                 </table>
+                {erro && <p role="alert">{erro}</p>}
             </main>
         </div>
     )
 }
 const obterLivros = async () => {
     const response = await fetch(baseURL);
+    if (!response.ok) throw new Error('Falha ao carregar livros');
     const dados = await response.json();
     return (dados)
 }
 const excluirLivro = async (codigo: number) => {
     const response = await fetch (`${baseURL}/${codigo}`, {method: "DELETE"});
+    if (!response.ok) throw new Error('Falha ao excluir livro');
     return response.ok
 }
 

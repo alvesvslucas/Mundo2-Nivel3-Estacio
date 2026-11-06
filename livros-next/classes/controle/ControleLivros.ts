@@ -1,4 +1,4 @@
-import Livro from "../modelo/Livro";
+import type Livro from "../modelo/Livro";
 
 //Dados JSON para o livros.
 const livros: Array <Livro> = [

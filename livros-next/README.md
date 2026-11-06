@@ -1,36 +1,38 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Catálogo Next.js — demonstração acadêmica
 
-## Getting Started
+Implementação em Next.js/React e TypeScript, com API interna para listar, incluir e excluir livros. Originada da missão acadêmica Mundo 2, Nível 3, da Estácio. Os dados de exemplo ficam em memória; não há banco externo.
 
-First, run the development server:
+## Executar
 
-```bash
+Use Node.js 24 com npm para repetir também os testes desta revisão.
+
+```sh
+cd livros-next
+npm ci
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abra o endereço informado no terminal. O menu permite consultar o catálogo e cadastrar um livro. As páginas usam `/api/livros` na mesma origem, sem fixar o domínio ou a porta.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Verificar
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```sh
+npm test
+npm run build
+npm run test:http
+```
 
-## Learn More
+- `npm test`: 12 casos dos handlers e controles reais. O teste remove as anotações TypeScript pelo Node e simula requisição/resposta; não executa o framework nem o navegador.
+- `npm run build`: compilação e verificação de tipos pelo Next.js.
+- `npm run test:http`: inicia o build em `127.0.0.1:3187`, testa a API HTTP real com um registro fictício e encerra o servidor. Execute somente após o build, com a porta livre.
+- O workflow [Catálogo Next.js](../.github/workflows/catalogo-next.yml) repete essas etapas em push e pull request para os arquivos deste componente.
 
-To learn more about Next.js, take a look at the following resources:
+No ambiente local desta revisão, passaram os 12 testes isolados e a conferência de sintaxe dos scripts. O download de dependências foi bloqueado pela rede; build e teste HTTP local não foram executados. Consulte o resultado do workflow no GitHub para a validação no runner.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Comportamento e limites
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+O POST valida título, resumo, editora e autores no servidor; o código do livro é gerado pelo controle. Requisições inválidas retornam 400; exclusão de livro ausente retorna 404; métodos não suportados retornam 405. A interface informa falhas de rede/API e mantém os campos para nova tentativa.
 
-## Deploy on Vercel
+Esta é uma demonstração acadêmica. Não há autenticação, autorização ou persistência durável. Alterações são compartilhadas no processo e se perdem ao reiniciar. Não há garantia de consistência entre processos, réplicas ou funções serverless; o smoke HTTP verifica apenas um servidor local. Não use dados reais de clientes.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+O framework e as dependências do lockfile foram preservados nesta alteração. A atualização de dependências e a homologação do ambiente de hospedagem ainda são necessárias antes de oferecer uma demonstração pública.

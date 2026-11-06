@@ -1,4 +1,4 @@
-import Editora from "../modelo/Editora";
+import type Editora from "../modelo/Editora";
 
 //Dados JSON para as editoras.
 const editoras: Array <Editora> = [

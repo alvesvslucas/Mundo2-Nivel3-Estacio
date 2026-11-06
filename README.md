@@ -1,20 +1,53 @@
-# Faculdade Estácio
+# Catálogo de Livros com React e Next.js
 
-## Curso Desenvolvimento Full Stack
+Missão acadêmica do curso de Desenvolvimento Full Stack da Estácio — Mundo 2, Nível 3.
 
-## Mundo 2 - Nível 3
+**Aluno:** Lucas Alves Vieira da Silva.
 
-## Lucas Alves Vieira da Silva
+O repositório reúne duas implementações de listagem e cadastro de livros com HTML, TypeScript e componentes React. A versão Next.js também inclui uma API interna em `pages/api/livros/`.
 
-### Página de listagem e cadastro de livros com React JS
+## Tecnologias e pastas
 
-Implementado com HTML, TypeScript e React JS, criando um front-end para Web, baseado em componentes reutilizáveis.
-![Captura de tela.](capturas_de_tela/Captura_de_tela_React_1.png)
-![Captura de tela.](capturas_de_tela/Captura_de_tela_React_2.png)
+| Pasta | Dependências declaradas | Scripts disponíveis |
+| --- | --- | --- |
+| `livros-react/` | React 18, React Router 6, TypeScript 4, React Scripts 5 | `start`, `build`, `test`, `eject` |
+| `livros-next/` | Next.js 14.2.3, React 18, TypeScript 5 | `dev`, `build`, `start`, `lint` |
 
-### Página de listagem e cadastro de livros com Next JS
+É necessário Node.js com npm. Os manifestos não definem uma versão de Node em `engines`; valide a compatibilidade com as dependências de cada pasta.
 
-Implementado com HTML, TypeScript e Next JS, criando um front-end para Web, baseado em componentes reutilizáveis. Utilizando o Next JS para a definição de uma API no estilo REST, de uso interno, com acesso via função fetch, oferecida no ambiente padrão do JavaScript.
-![Captura de tela.](capturas_de_tela/Captura_de_tela_Next_1.png)
-![Captura de tela.](capturas_de_tela/Captura_de_tela_Next_2.png)
-![Captura de tela.](capturas_de_tela/Captura_de_tela_Next_3.png)
+## Executar localmente
+
+```sh
+git clone https://github.com/alvesvslucas/Mundo2-Nivel3-Estacio.git
+cd Mundo2-Nivel3-Estacio
+```
+
+Para a versão React, a partir da raiz:
+
+```sh
+cd livros-react
+npm install
+npm start
+```
+
+Para a versão Next.js, em outro terminal a partir da raiz:
+
+```sh
+cd livros-next
+npm install
+npm run dev
+```
+
+Acesse o endereço informado por cada servidor. Ao executar as duas versões, escolha portas diferentes se houver conflito.
+
+## Build e verificações
+
+Na pasta React, use `npm run build` e `npm test`. Na pasta Next.js, use `npm run build`, `npm start` após o build e `npm run lint`. Esses comandos existem nos manifestos; não foram executados nesta revisão.
+
+## Capturas
+
+![Catálogo React](capturas_de_tela/Captura_de_tela_React_1.png)
+![Cadastro React](capturas_de_tela/Captura_de_tela_React_2.png)
+![Catálogo Next.js](capturas_de_tela/Captura_de_tela_Next_1.png)
+![Cadastro Next.js](capturas_de_tela/Captura_de_tela_Next_2.png)
+![Next.js](capturas_de_tela/Captura_de_tela_Next_3.png)

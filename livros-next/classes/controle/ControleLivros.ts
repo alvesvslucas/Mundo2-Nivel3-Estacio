@@ -1,14 +1,8 @@
 import type Livro from "../modelo/Livro";
+import { criarLivrosIniciais } from "../dados/livrosIniciais";
 
 //Dados JSON para o livros.
-const livros: Array <Livro> = [
-    {codigo: 1478, codEditora: 789, titulo: "JavaScript", 
-    resumo: "Conheça a história da linguagem e sua sintaxe com exemplos.", autores: ["Will", "Pedro"]},
-    {codigo: 2556, codEditora:456, titulo: "CSS", 
-    resumo: "Exercícios práticos para se tornar um expert na formatação de sites.", autores: ["Wilson", "Aráujo"]},
-    {codigo: 9323, codEditora: 123, titulo: "HTML", 
-    resumo: "Explore sua evolução e conheça todas as tags disponíveis.", autores: ["Pedro", "Avilar"]}
-];
+const livros: Array<Livro> = criarLivrosIniciais();
 //Classe com métodos para retornar o vetor de livros, incluir ou excluir.
 class ControleLivro {
     obterLivros () {

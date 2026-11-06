@@ -2,7 +2,8 @@ import type { NextPage } from "next";
 import React, { useState } from "react";
 import styles from '../styles/Home.module.css'
 import ControleEditora from "@/classes/controle/ControleEditora";
-import Livro from "@/classes/modelo/Livro";
+import type Livro from "@/classes/modelo/Livro";
+import { incluirLivroDemo, ErroCatalogoDemo } from "@/classes/controle/CatalogoDemo";
 import { useRouter } from "next/router";
 import { Menu } from "@/componentes/Menu";
 import Head from "next/head";
@@ -11,8 +12,13 @@ import 'bootstrap/dist/css/bootstrap.css';
 const controleEditora = new ControleEditora();
 
 const baseURL = "/api/livros";
+const modoDemo = process.env.NEXT_PUBLIC_DEMO_MODE === "true";
 
 const incluirLivro = async (livro: Livro) => {
+    if (modoDemo) {
+        incluirLivroDemo(window.sessionStorage, livro);
+        return;
+    }
     const response = await fetch(baseURL, {
         method: 'POST',
         headers: {
@@ -53,8 +59,10 @@ const LivroDados: NextPage = () => {
         try {
             await incluirLivro(livro);
             await router.push('/LivroLista');
-        } catch {
-            setErro('Não foi possível salvar. Confira os campos e tente novamente.');
+        } catch (error: unknown) {
+            setErro(error instanceof ErroCatalogoDemo ? error.message : modoDemo
+                ? 'Não foi possível salvar nesta aba. Verifique a permissão de armazenamento do navegador.'
+                : 'Não foi possível salvar. Confira os campos e tente novamente.');
         } finally {
             setSalvando(false);
         }
@@ -69,6 +77,7 @@ const LivroDados: NextPage = () => {
                 <h1 className={styles.title}>
                     Dados do livro
                 </h1>
+                {modoDemo && <p className="alert alert-info" role="note">Demonstração acadêmica com dados fictícios. O livro será salvo apenas nesta aba do navegador; você pode restaurar os exemplos em Reiniciar demonstração no catálogo.</p>}
                 <form onSubmit={incluir}>
                     <div className="mb-3">
                         <label htmlFor="titulo" className="form-label">Título</label>

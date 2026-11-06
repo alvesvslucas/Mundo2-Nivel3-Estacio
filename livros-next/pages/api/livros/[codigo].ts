@@ -2,6 +2,11 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import {controleLivro} from '.';
 
 export default (req: NextApiRequest, res: NextApiResponse) => {
+    if (process.env.NEXT_PUBLIC_DEMO_MODE === "true") {
+        res.setHeader('X-Demo-Mode', 'session-storage');
+        res.setHeader('Allow', '');
+        return res.status(405).json({message: 'Nesta demonstração, alterações são salvas apenas na aba do navegador.'});
+    }
     if (req.method === 'DELETE') {
         try {
             const codExcluir = Number(req.query.codigo);

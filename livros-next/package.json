@@ -7,8 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "node --test tests/api-handlers.test.mjs",
-    "test:http": "node tests/run-http-smoke.mjs"
+    "test": "node --test tests/api-handlers.test.mjs tests/demo-storage.test.mjs",
+    "test:http": "node tests/run-http-smoke.mjs",
+    "build:demo": "node scripts/build-demo.mjs",
+    "test:demo:http": "node tests/run-http-smoke.mjs tests/demo-http.test.mjs"
   },
   "dependencies": {
     "bootstrap": "^5.3.3",

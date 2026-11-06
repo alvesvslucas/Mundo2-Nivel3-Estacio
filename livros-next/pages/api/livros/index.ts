@@ -1,16 +1,23 @@
 import ControleLivro from "@/classes/controle/ControleLivros";
 import ControleEditora from "@/classes/controle/ControleEditora";
+import { criarLivrosIniciais } from "@/classes/dados/livrosIniciais";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 export const controleLivro = new ControleLivro();
 const controleEditora = new ControleEditora();
 
 export default (req: NextApiRequest, res: NextApiResponse) => {
+    const modoDemo = process.env.NEXT_PUBLIC_DEMO_MODE === "true";
+    if (modoDemo) res.setHeader('X-Demo-Mode', 'session-storage');
     try {
         if (req.method === 'GET') {
-            const vetorLivros = controleLivro.obterLivros();
+            const vetorLivros = modoDemo ? criarLivrosIniciais() : controleLivro.obterLivros();
             res.status(200).json(vetorLivros);
         } else if (req.method === 'POST') {
+            if (modoDemo) {
+                res.setHeader('Allow', 'GET');
+                return res.status(405).json({mensagem: 'Nesta demonstração, alterações são salvas apenas na aba do navegador.'});
+            }
             const dados = req.body;
             if (!dados || typeof dados !== 'object' || Array.isArray(dados)
                 || typeof dados.titulo !== 'string' || !dados.titulo.trim()
@@ -31,7 +38,7 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
             controleLivro.incluir(novoLivro);
             res.status(200).json({mensagem: 'Sucesso.'})
         } else {
-            res.setHeader('Allow', 'GET, POST');
+            res.setHeader('Allow', modoDemo ? 'GET' : 'GET, POST');
             res.status(405).json({mensagem: 'Método não permitido.'});
         }
     } catch (error) {

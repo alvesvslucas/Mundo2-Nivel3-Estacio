@@ -5,6 +5,10 @@ import { fileURLToPath } from 'node:url';
 
 const cwd = fileURLToPath(new URL('../', import.meta.url));
 const origin = 'http://127.0.0.1:3187';
+const testFile = process.argv[2] || 'tests/http-smoke.test.mjs';
+if (!['tests/http-smoke.test.mjs', 'tests/demo-http.test.mjs'].includes(testFile)) {
+  throw new Error('Selecione um dos smoke tests locais documentados.');
+}
 const server = spawn(process.execPath, ['node_modules/next/dist/bin/next', 'start', '--hostname', '127.0.0.1', '--port', '3187'], { cwd, stdio: 'inherit' });
 let serverError;
 server.on('error', error => { serverError = error; });
@@ -24,7 +28,7 @@ try {
     if (!ready) await delay(250);
   }
   if (!ready) throw new Error('Next não ficou disponível em 60 segundos.');
-  const tests = spawn(process.execPath, ['--test', 'tests/http-smoke.test.mjs'], {
+  const tests = spawn(process.execPath, ['--test', testFile], {
     cwd, stdio: 'inherit', env: { ...process.env, NEXT_TEST_ORIGIN: origin },
   });
   tests.on('error', error => { console.error(error); process.exitCode = 1; });

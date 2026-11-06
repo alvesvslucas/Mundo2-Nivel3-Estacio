@@ -7,10 +7,16 @@
 
 .main {
     background-color: white;
-    margin: 10px;
+    color: #212529;
+    max-width: 1200px;
+    margin: 24px auto;
+    padding: 0 20px 32px;
   }
 
 .title {
+  font-size: clamp(28px, 5vw, 40px);
+  font-weight: 700;
   margin-top: 20px;
   margin-bottom: 10px;
 }
+.main :global(form) { max-width: 780px; }

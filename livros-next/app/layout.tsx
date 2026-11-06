@@ -5,7 +5,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Loja Next"
+  title: "Catálogo de Livros | Lucas Alves",
+  description: "Demonstração acadêmica de catálogo e cadastro de livros com React, Next.js e TypeScript."
 };
 
 export default function RootLayout({

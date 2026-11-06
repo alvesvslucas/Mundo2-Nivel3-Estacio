@@ -47,3 +47,7 @@ jobs:
         run: npm run build
       - name: Verificar inclusão, listagem e exclusão pelo servidor Next real
         run: npm run test:http
+      - name: Compilar a demonstração por visitante
+        run: npm run build:demo
+      - name: Conferir API de consulta e bloqueio de mutações no modo público
+        run: npm run test:demo:http

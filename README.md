@@ -13,7 +13,7 @@ O repositório reúne duas implementações de listagem e cadastro de livros com
 | `livros-react/` | React 18, React Router 6, TypeScript 4, React Scripts 5 | `start`, `build`, `test`, `eject` |
 | `livros-next/` | Next.js 15.5.29, React 18, TypeScript 5 | `dev`, `build`, `build:demo`, `start`, `lint`, `test`, `test:http`, `test:demo:http` |
 
-É necessário Node.js com npm. Os manifestos não definem uma versão de Node em `engines`; valide a compatibilidade com as dependências de cada pasta.
+Para `livros-next/`, use **Node.js 24.x** com npm, conforme `engines` e o ambiente da CI. A versão em `livros-react/` possui dependências independentes e não declara `engines`; sua compatibilidade de execução deve ser validada separadamente.
 
 ## Executar localmente
 

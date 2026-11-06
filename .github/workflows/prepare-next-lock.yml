@@ -1,0 +1,38 @@
+name: Preparar lockfile Next
+on:
+  push:
+    branches: [chore/vercel-demo-2026-11-06]
+    paths:
+      - livros-next/package.json
+      - .github/workflows/prepare-next-lock.yml
+permissions:
+  contents: read
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: livros-next
+    env:
+      NEXT_TELEMETRY_DISABLED: '1'
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - name: Resolver lockfile para a versão declarada
+        run: npm install --package-lock-only --ignore-scripts
+      - name: Guardar lockfile para revisão e versionamento
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: next-15-lockfile
+          path: livros-next/package-lock.json
+          retention-days: 3
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+      - run: npm run test:http
